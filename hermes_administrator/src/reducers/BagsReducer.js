@@ -3,6 +3,7 @@ import { actionTypes } from './ActionTypes'
 // Initial State for the bags
 const BAGS_INITIAL_STATE = {
     bagValues: [],
+    bagSelected: '',
     isFetchingBags: false,
     isUpdatingBag: false,
 };
@@ -20,7 +21,7 @@ export const bagsReducer = (state = BAGS_INITIAL_STATE, action) =>
         case actionTypes.FETCH_BAG_OBJECTS_SUCCESS:
             return{
                 ...state,
-                bagsValues: action.payload,
+                bagValues: action.payload,
                 fetchingBagsSuccess: true,
                 isFetchingBags: false,
             };
@@ -40,7 +41,7 @@ export const bagsReducer = (state = BAGS_INITIAL_STATE, action) =>
         case actionTypes.FETCH_BAG_UPDATE_SUCCESS:
             return{
                 ...state,
-                bagsValues: state.bagValues.filter(bag => (bag.guid !== action.id)).concat([action.payload]),
+                bagValues: state.bagValues.filter(bag => (bag.bag_id !== action.id)).concat([action.payload]),
                 updatingBagSuccess: true,
                 isUpdatingBag: false,
             };
@@ -50,6 +51,17 @@ export const bagsReducer = (state = BAGS_INITIAL_STATE, action) =>
                 updatingBagSuccess: false,
                 isUpdatingBag: false,
             };
+
+        case actionTypes.NEW_BAG_SELECTED:
+            return{
+                ...state,
+                bagSelected: action.payload,
+            }
+        case actionTypes.RESET_UI_BAGS:
+            return{
+                ...state,
+                bagSelected: '',
+            }
 
         default:
             return state

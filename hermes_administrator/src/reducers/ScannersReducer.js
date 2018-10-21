@@ -1,13 +1,13 @@
 import { actionTypes } from './ActionTypes'
 
-// Initial State for the bags
+// Initial State for the scanners
 const SCANNERS_INITIAL_STATE = {
     scannerValues: [],
     isFetchingScanners: false,
     isUpdatingScanner: false,
 };
 
-export const bagsReducer = (state = SCANNERS_INITIAL_STATE, action) =>
+export const scannersReducer = (state = SCANNERS_INITIAL_STATE, action) =>
 {
     switch(action.type)
     {
@@ -40,7 +40,7 @@ export const bagsReducer = (state = SCANNERS_INITIAL_STATE, action) =>
         case actionTypes.UPDATE_SCANNER_OBJECT_SUCCESS:
             return{
                 ...state,
-                scannerValues: state.scannerValues.filter(scanner => (scanner.guid !== action.id)).concat([action.payload]),
+                scannerValues: state.scannerValues.filter(scanner => (scanner.scanner_id !== action.id)).concat([action.payload]),
                 updatingScannerSuccess: true,
                 isUpdatingScanner: false,
             };

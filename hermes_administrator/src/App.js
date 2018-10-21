@@ -1,27 +1,39 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import thunk from 'redux-thunk';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import { bagsReducer } from './reducers/BagsReducer';
+import { scannersReducer } from './reducers/ScannersReducer';
+import { userReducer } from './reducers/UserReducer';
+import { flightsReducer } from './reducers/FlightsReducer';
+import AppRoot from './AppRoot';
 import './App.css';
 
 class App extends Component {
+
+  constructor(props)
+  {
+    super(props)
+  }
+
   render() {
+    let store = createStore(this.rootReducer(), applyMiddleware(thunk))
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Provider store={store}>
+        <AppRoot/>
+      </Provider>
     );
+  }
+
+  rootReducer()
+  {
+    return combineReducers(
+        {
+          bags: bagsReducer,
+          scanners: scannersReducer,
+          user: userReducer,
+          flights: flightsReducer,
+        });
   }
 }
 

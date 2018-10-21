@@ -1,0 +1,24 @@
+.header {
+    display: flex;
+    margin: 5px;
+    border: 2px solid black;
+    background-color: black;
+}
+
+.paneHeader {
+    color: white;
+}
+
+#update {
+    margin-left: 15px;
+}
+
+.listContainer {
+    margin: 5px;
+    border: 2px solid black;
+}
+
+.paneBody {
+    border: 5px solid black;
+    flex-basis: 100%;
+}

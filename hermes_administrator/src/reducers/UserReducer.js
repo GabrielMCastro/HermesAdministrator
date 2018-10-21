@@ -1,6 +1,6 @@
 import { actionTypes } from './ActionTypes'
 
-// Initial State for the bags
+// Initial State for the users
 const USER_INITIAL_STATE = {
     userValues: [],
     isFetchingUser: false,

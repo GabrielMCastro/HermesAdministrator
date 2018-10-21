@@ -5,21 +5,63 @@
 
 import { actionTypes } from './reducers/ActionTypes'
 import { 
-    fetchBags,
-    fetchBagUpdates,
-    fetchScanners,
-    updateScanner,
-    fetchUser, 
-} from './data/TestDataSource'
+    fetchBagsDB,
+    fetchBagUpdatesDB,
+    fetchScannersDB,
+    updateScannerDB,
+    fetchUserDB,
+    fetchFlightsDB, 
+} from './data/LiveDataSource'
 
-
-// Fetching the bags in the server
-export const fetchBags = () => {
+export const newFlightSelected = (flightid) => {
     return (dispatch) => {
+        dispatch({
+            type: actionTypes.NEW_FLIGHT_SELECTED,
+            payload: flightid,
+        });
+    };
+};
+
+export const newBagSelected = (bagid) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.NEW_BAG_SELECTED,
+            payload: bagid,
+        });
+    };
+};
+
+export const fetchFlights = () => {
+    return (dispatch) => {
+        dispatch({ type: actionTypes.FETCH_FLIGHT_OBJECTS });
+
+        // Fetching the flights
+        fetchFlightsDB().then(flights => {
+            dispatch({
+                type: actionTypes.FETCH_FLIGHT_OBJECTS_SUCCESS,
+                payload: flights,
+            });
+        }).catch(err => {
+            dispatch({
+                type: actionTypes.FETCH_FLIGHT_OBJECTS_FAIL,
+                payload: err,
+            });
+        });
+    };
+};
+
+// Fetching the bags in the server for a specific user
+export const fetchBags = (userid) => {
+    return (dispatch) => {
+        dispatch({ 
+            type: actionTypes.RESET_UI_BAGS,
+            payload: userid,
+        });
+        
         dispatch({ type: actionTypes.FETCH_BAG_OBJECTS });
 
         // Fetching the bags
-        fetchBags().then(bags => {
+        fetchBagsDB(userid).then(bags => {
             dispatch({
                 type: actionTypes.FETCH_BAG_OBJECTS_SUCCESS,
                 payload: bags,
@@ -39,7 +81,7 @@ export const fetchBagUpdates = (bagid) => {
         dispatch({ type: actionTypes.FETCH_BAG_UPDATE });
 
         // Fetching the updates
-        fetchBagUpdates(bagid).then(bag => {
+        fetchBagUpdatesDB(bagid).then(bag => {
             dispatch({
                 type: actionTypes.FETCH_BAG_UPDATE_SUCCESS,
                 id: bagid,
@@ -60,7 +102,7 @@ export const fetchScanners = () => {
         dispatch({ type: actionTypes.FETCH_SCANNER_OBJECTS });
 
         // Fetching the scanner objects
-        fetchScanners().then(scanners => {
+        fetchScannersDB().then(scanners => {
             dispatch({
                 type: actionTypes.FETCH_SCANNER_OBJECTS_SUCCESS,
                 payload: scanners,
@@ -80,7 +122,7 @@ export const updateScanner = (scannerid) => {
         dispatch({ type: actionTypes.UPDATE_SCANNER_OBJECT });
 
         // Updating the scanner object
-        updateScanner(scannerid).then(updatedscanner => {
+        updateScannerDB(scannerid).then(updatedscanner => {
             dispatch({
                 type: actionTypes.UPDATE_SCANNER_OBJECT_SUCCESS,
                 id: scannerid,
@@ -101,7 +143,7 @@ export const fetchUserObject = (userid) => {
         dispatch({ type: actionTypes.FETCH_USER_OBJECT });
 
         // Fetching the user object
-        fetchUser(userid).then(user => {
+        fetchUserDB(userid).then(user => {
             dispatch({
                 type: actionTypes.FETCH_USER_OBJECT_SUCCESS,
                 payload: user,
